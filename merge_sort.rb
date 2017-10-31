@@ -1,6 +1,6 @@
 module MergeSort
   def key left, right
-    "#{left}--#{right}"
+    [left[:who], right[:who]].join("--")
   end
 
   def merge_sort ary
@@ -12,8 +12,8 @@ module MergeSort
 
   def ask_for_comparison first, second
     puts "If you had to invite only one person (or group) who would you invite?"
-    puts "1) #{first}"
-    puts "2) #{second}"
+    puts "1) #{first[:who]}"
+    puts "2) #{second[:who]}"
     result = gets
     if ["1", "2"].include? result.strip
       result.strip == "1" ? -1 : 1
@@ -23,7 +23,16 @@ module MergeSort
   end
 
   def compare first, second
-    @cache[key(first, second)] ||= ask_for_comparison first, second
+    k = key(first, second)
+    nk = key(second, first)
+
+    if @cache[k]
+      @cache[k]
+    elsif @cache[nk]
+      @cache[nk] * - 1
+    else
+      @cache[k] = ask_for_comparison first, second
+    end
   end
 
   def ms_split ary

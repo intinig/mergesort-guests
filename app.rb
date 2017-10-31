@@ -14,10 +14,18 @@ OptionParser.new do |opts|
   end
 end.parse!
 
+xlsx = Roo::Spreadsheet.open filename
+
+data = xlsx.sheet(0).parse(who: "Chi", people: "Persone")
+puts data.inspect
+
 include MergeSort
 
 @cache = {}
 
-data = %w(Mamma ZiaRita Ivo Travis Lello Antonella ZioEnzo Dino)
+i = 1
 
-puts merge_sort(data).inspect
+merge_sort(data).each do |item|
+  puts "#{i}. #{item[:who]}"
+  i+=item[:people]
+end
