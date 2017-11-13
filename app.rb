@@ -3,6 +3,7 @@
 require __dir__ + "/merge_sort"
 require "roo"
 require "optparse"
+require "rutui"
 
 filename = ""
 
@@ -25,7 +26,21 @@ include MergeSort
 
 i = 1
 
-merge_sort(data).each do |item|
-  puts "#{i}. #{item[:who]}"
-  i+=item[:people]
+# merge_sort(data).each do |item|
+#   puts "#{i}. #{item[:who]}"
+#   i+=item[:people]
+# end
+
+RuTui::Theme.use :light
+
+screen = RuTui::Screen.new
+screen.add_static RuTui::Text.new({ :x => 1, :y  => 1, :text => "use WASD or q/CTRL+C to quit", :rainbow => true })
+@textfield = RuTui::Textfield.new({ :x => 2, :y => 2 })
+screen.add @textfield
+
+RuTui::ScreenManager.add :default, screen
+
+RuTui::ScreenManager.loop({ :autofit => true, :autodraw => false }) do |key|
+	break if key == 3 or key.chr == "q" # 3 = CTRL+C
+  @textfield.write key
 end
