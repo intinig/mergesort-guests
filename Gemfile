@@ -1,4 +1,5 @@
 source "https://rubygems.org"
 
 gem "roo"
-gem "rutui"
+gem "sinatra"
+gem "sequel"
